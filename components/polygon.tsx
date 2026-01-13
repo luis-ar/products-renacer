@@ -137,7 +137,7 @@ export default function PlanoUrbanizacion({ lotes }: PlanoUrbanizacionProps) {
           )}
         </div>
 
-        <ScrollArea className="flex-1 h-full py-4">
+        <ScrollArea className="flex-1 h-[calc(100%-65px)] py-4">
           <div className="flex-1 p-4">
             {activeLote ? (
               <div className="space-y-4 animate-in fade-in slide-in-from-right-2 duration-200">
