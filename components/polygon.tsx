@@ -124,7 +124,7 @@ export default function PlanoUrbanizacion({ lotes }: PlanoUrbanizacionProps) {
       {/* 30% Information Panel */}
       <div className="w-[30%] flex flex-col overflow-hidden rounded-lg border bg-muted/10">
         <div className="flex items-center justify-between border-b p-4 bg-muted/20">
-          <h3 className="text-lg font-bold">Detalle del Lote</h3>
+          <h3 className="text-lg font-bold">Detalle de la Etapa</h3>
           {selectedStage && (
             <Button 
                 variant="ghost" 
