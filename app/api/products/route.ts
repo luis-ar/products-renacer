@@ -24,6 +24,7 @@ export async function POST() {
               "type",
               "image_128",
               "active",
+              "x_statu"
             ],
           },
         ],

@@ -361,34 +361,59 @@ export default function PlanoUrbanizacion({ lotes }: PlanoUrbanizacionProps) {
               </div>
 
               {activeLote.metadata && (
-                <div className="space-y-4 pt-2">
-                  <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Resumen de Etapa</p>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="flex flex-col rounded-md border bg-background p-2 shadow-sm text-center">
-                      <span className="text-[10px] text-muted-foreground uppercase">Manzanas</span>
-                      <span className="text-lg font-bold">{activeLote.metadata.totalBlocks}</span>
+                  <div className="space-y-4 pt-2">
+                    <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Resumen de Etapa</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="flex flex-col rounded-md border bg-background p-2 shadow-sm text-center">
+                        <span className="text-[10px] text-muted-foreground uppercase">Manzanas</span>
+                        <span className="text-lg font-bold">{activeLote.metadata.totalBlocks}</span>
+                      </div>
+                      <div className="flex flex-col rounded-md border bg-background p-2 shadow-sm text-center">
+                        <span className="text-[10px] text-muted-foreground uppercase">Total Lotes</span>
+                        <span className="text-lg font-bold">{activeLote.metadata.totalLots}</span>
+                      </div>
                     </div>
-                    <div className="flex flex-col rounded-md border bg-background p-2 shadow-sm text-center">
-                      <span className="text-[10px] text-muted-foreground uppercase">Total Lotes</span>
-                      <span className="text-lg font-bold">{activeLote.metadata.totalLots}</span>
-                    </div>
-                  </div>
 
-                  <div className="space-y-2">
-                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Detalle por Manzana</p>
-                    <div className="max-h-[200px] space-y-1 overflow-y-auto rounded-md border p-2 bg-muted/5">
-                      {activeLote.metadata.blocks.map((block, i) => (
-                        <div key={i} className="flex items-center justify-between rounded bg-background p-2 text-sm border-b last:border-0 hover:bg-muted/50 transition-colors">
-                          <span className="font-medium">{block.name}</span>
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-xs font-bold text-primary">{block.lotCount}</span>
-                            <span className="text-[10px] text-muted-foreground">lotes</span>
+                    <div className="grid grid-cols-3 gap-1 px-1">
+                      <div className="flex flex-col items-center p-1 rounded bg-accent border">
+                        <span className="text-[9px] text-green-700 font-bold uppercase">Libres</span>
+                        <span className="text-sm font-bold text-green-600">{activeLote.metadata.availableLots}</span>
+                      </div>
+                      <div className="flex flex-col items-center p-1 rounded bg-accent border">
+                        <span className="text-[9px] text-red-700 font-bold uppercase">Vendidos</span>
+                        <span className="text-sm font-bold text-red-600">{activeLote.metadata.soldLots}</span>
+                      </div>
+                      <div className="flex flex-col items-center p-1 rounded bg-accent border">
+                        <span className="text-[9px] text-orange-700 font-bold uppercase">Sep.</span>
+                        <span className="text-sm font-bold text-orange-600">{activeLote.metadata.separatedLots}</span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Detalle por Manzana</p>
+                      <ScrollArea className="h-[200px]">
+                      <div className="space-y-1 rounded-md border p-2 bg-muted/5">
+                        {activeLote.metadata.blocks.map((block, i) => (
+                          <div key={i} className="flex flex-col gap-1 rounded bg-background p-2 text-sm border-b last:border-0 hover:bg-muted/50 transition-colors">
+                            <div className="flex items-center justify-between">
+                              <span className="font-medium">{block.name}</span>
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-xs font-bold text-primary">{block.lotCount}</span>
+                                <span className="text-[10px] text-muted-foreground">lotes</span>
+                              </div>
+                            </div>
+                            <div className="flex gap-2 text-[10px] font-medium uppercase tracking-tight">
+                              <span className="text-green-600">L: {block.availableLots}</span>
+                              <span className="text-red-600">V: {block.soldLots}</span>
+                              <span className="text-orange-600">S: {block.separatedLots}</span>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
+                      </ScrollArea>
+                      
                     </div>
                   </div>
-                </div>
               )}
 
               <div className="flex gap-2 items-center">

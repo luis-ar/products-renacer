@@ -83,9 +83,15 @@ const StagesMap = ({ stageData }: { stageData: StageData[] }) => {
         metadata: {
           totalBlocks: matchedData.totalBlocks,
           totalLots: matchedData.totalLots,
+          availableLots: matchedData.availableLots,
+          soldLots: matchedData.soldLots,
+          separatedLots: matchedData.separatedLots,
           blocks: matchedData.blocks.map(b => ({
             name: b.blockName,
             lotCount: b.lots.length,
+            availableLots: b.availableLots,
+            soldLots: b.soldLots,
+            separatedLots: b.separatedLots,
           })),
         },
       };

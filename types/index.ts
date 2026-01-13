@@ -6,9 +6,15 @@ export type Poligono = {
   metadata?: {
     totalBlocks: number;
     totalLots: number;
+    availableLots: number;
+    soldLots: number;
+    separatedLots: number;
     blocks: {
       name: string;
       lotCount: number;
+      availableLots: number;
+      soldLots: number;
+      separatedLots: number;
     }[];
   };
 };

@@ -102,6 +102,9 @@ export function ProductsByStage({ products, loading = false }: ProductsByStagePr
                   <TableHead>Etapas</TableHead>
                   <TableHead className="text-center">Total Manzanas</TableHead>
                   <TableHead className="text-center">Total Lotes</TableHead>
+                  <TableHead className="text-center text-green-600">Libre</TableHead>
+                  <TableHead className="text-center text-red-600">Vendido</TableHead>
+                  <TableHead className="text-center text-orange-600">Separado</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -129,18 +132,28 @@ export function ProductsByStage({ products, loading = false }: ProductsByStagePr
                       <TableCell className="text-center">
                         <Badge variant="outline">{stage.totalLots}</Badge>
                       </TableCell>
+                      <TableCell className="text-center">
+                        <Badge variant="outline" className="text-green-700">{stage.availableLots}</Badge>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <Badge variant="outline" className="text-red-700">{stage.soldLots}</Badge>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <Badge variant="outline" className="text-orange-700">{stage.separatedLots}</Badge>
+                      </TableCell>
                     </TableRow>
                     {expandedStages.has(stage.stageCode) && (
                       <TableRow>
-                        <TableCell colSpan={4} className="bg-muted/30 p-0">
+                        <TableCell colSpan={7} className="bg-muted/30 p-0">
                           <div className="p-4">
                             <Table>
                               <TableHeader>
                                 <TableRow>
                                   <TableHead>Manzana</TableHead>
-                                  <TableHead className="text-center">
-                                    Lotes
-                                  </TableHead>
+                                  <TableHead className="text-center">Lotes</TableHead>
+                                  <TableHead className="text-center text-green-600">Libre</TableHead>
+                                  <TableHead className="text-center text-red-600">Vendido</TableHead>
+                                  <TableHead className="text-center text-orange-600">Separado</TableHead>
                                 </TableRow>
                               </TableHeader>
                               <TableBody>
@@ -153,6 +166,15 @@ export function ProductsByStage({ products, loading = false }: ProductsByStagePr
                                       <Badge variant="secondary">
                                         {block.lots.length}
                                       </Badge>
+                                    </TableCell>
+                                    <TableCell className="text-center text-xs text-green-700 font-medium">
+                                      {block.availableLots}
+                                    </TableCell>
+                                    <TableCell className="text-center text-xs text-red-700 font-medium">
+                                      {block.soldLots}
+                                    </TableCell>
+                                    <TableCell className="text-center text-xs text-orange-700 font-medium">
+                                      {block.separatedLots}
                                     </TableCell>
                                   </TableRow>
                                 ))}
@@ -181,15 +203,33 @@ export function ProductsByStage({ products, loading = false }: ProductsByStagePr
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Total Manzanas:</span>
-                      <Badge variant="outline">{stage.totalBlocks}</Badge>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-2">
+                       <div className="flex flex-col rounded-md border p-2 bg-muted/20">
+                        <span className="text-[10px] text-muted-foreground uppercase font-semibold">Total Manzanas</span>
+                        <span className="text-lg font-bold">{stage.totalBlocks}</span>
+                      </div>
+                      <div className="flex flex-col rounded-md border p-2 bg-muted/20">
+                        <span className="text-[10px] text-muted-foreground uppercase font-semibold">Total Lotes</span>
+                        <span className="text-lg font-bold">{stage.totalLots}</span>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Total Lotes:</span>
-                      <Badge variant="outline">{stage.totalLots}</Badge>
+
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">Libres:</span>
+                        <span className="font-bold text-green-600">{stage.availableLots}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">Vendidos:</span>
+                        <span className="font-bold text-red-600">{stage.soldLots}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">Separados:</span>
+                        <span className="font-bold text-orange-600">{stage.separatedLots}</span>
+                      </div>
                     </div>
+
                     <div className="pt-2">
                       <Button
                         variant="ghost"
@@ -197,7 +237,7 @@ export function ProductsByStage({ products, loading = false }: ProductsByStagePr
                         className="w-full justify-between"
                         onClick={() => toggleStage(stage.stageCode)}
                       >
-                        <span>Ver Manzanas</span>
+                        <span>Ver Detalle Manzanas</span>
                         {expandedStages.has(stage.stageCode) ? (
                           <IconChevronDown className="size-4" />
                         ) : (
@@ -206,16 +246,23 @@ export function ProductsByStage({ products, loading = false }: ProductsByStagePr
                       </Button>
                     </div>
                     {expandedStages.has(stage.stageCode) && (
-                      <div className="space-y-2 rounded-md border bg-muted/30 p-3">
+                      <div className="space-y-1 rounded-md border bg-muted/30 p-2">
                         {stage.blocks.map((block) => (
                           <div
                             key={block.blockCode}
-                            className="flex items-center justify-between text-sm"
+                            className="flex flex-col gap-1 border-b last:border-0 py-2"
                           >
-                            <span className="font-medium">{block.blockName}</span>
-                            <Badge variant="secondary" className="text-xs">
-                              {block.lots.length} lote{block.lots.length !== 1 ? "s" : ""}
-                            </Badge>
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="font-bold">{block.blockName}</span>
+                              <Badge variant="secondary" className="text-[10px] h-4">
+                                {block.lots.length} lotes
+                              </Badge>
+                            </div>
+                            <div className="flex gap-2 text-[10px] font-medium uppercase tracking-tight">
+                              <span className="text-green-600">L: {block.availableLots}</span>
+                              <span className="text-red-600">V: {block.soldLots}</span>
+                              <span className="text-orange-600">S: {block.separatedLots}</span>
+                            </div>
                           </div>
                         ))}
                       </div>

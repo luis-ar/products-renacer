@@ -6,12 +6,16 @@ export interface Product {
   type: string
   image_128: boolean | string
   active: boolean
+  x_statu: string
 }
 
 export interface BlockData {
   blockCode: string
   blockName: string
   lots: Product[]
+  availableLots: number
+  soldLots: number
+  separatedLots: number
 }
 
 export interface StageData {
@@ -19,6 +23,9 @@ export interface StageData {
   stageName: string
   totalBlocks: number
   totalLots: number
+  availableLots: number
+  soldLots: number
+  separatedLots: number
   blocks: BlockData[]
 }
 

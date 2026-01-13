@@ -75,14 +75,38 @@ export function groupProductsByStage(products: Product[]): StageData[] {
   stageMap.forEach((blockMap, stageCode) => {
     const blocks: BlockData[] = []
     let totalLots = 0
+    let stageAvailable = 0
+    let stageSold = 0
+    let stageSeparated = 0
 
     blockMap.forEach((lots, blockCode) => {
+      let blockAvailable = 0
+      let blockSold = 0
+      let blockSeparated = 0
+
+      lots.forEach((p) => {
+        if (!p.x_statu || typeof p.x_statu !== "string") return;
+
+        const status = p.x_statu.toLowerCase();
+
+        if (status === "libre") blockAvailable++;
+        else if (status === "vendido") blockSold++;
+        else if (status === "separado") blockSeparated++;
+      });
+
+
       blocks.push({
         blockCode,
         blockName: getBlockName(blockCode),
         lots,
+        availableLots: blockAvailable,
+        soldLots: blockSold,
+        separatedLots: blockSeparated,
       })
       totalLots += lots.length
+      stageAvailable += blockAvailable
+      stageSold += blockSold
+      stageSeparated += blockSeparated
     })
 
     // Sort blocks by block code
@@ -93,6 +117,9 @@ export function groupProductsByStage(products: Product[]): StageData[] {
       stageName: getStageName(stageCode),
       totalBlocks: blocks.length,
       totalLots,
+      availableLots: stageAvailable,
+      soldLots: stageSold,
+      separatedLots: stageSeparated,
       blocks,
     })
   })
